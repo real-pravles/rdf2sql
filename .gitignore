@@ -39,3 +39,14 @@ build/
 
 *.fodg#
 /src/test/resources/scenarios/02/actual-result/
+/src/test/resources/scenarios/03/actual-result/21040/
+/src/test/resources/scenarios/03/actual-result/22332/
+/src/test/resources/scenarios/03/actual-result/25440/
+/src/test/resources/scenarios/03/actual-result/26541/
+/src/test/resources/scenarios/03/actual-result/32428/
+/src/test/resources/scenarios/03/actual-result/45822/
+/src/test/resources/scenarios/03/actual-result/59774/
+/src/test/resources/scenarios/03/actual-result/61367/
+/src/test/resources/scenarios/03/actual-result/66768/
+/src/test/resources/scenarios/03/actual-result/68408/
+/src/test/resources/scenarios/03/actual-result/rdf.sql

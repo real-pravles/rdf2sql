@@ -10,6 +10,7 @@
 
 package com.pravles.rdf2sql;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -76,11 +77,11 @@ public class ExtractRdfData implements Function<File, DataFromRdf> {
                 }
             });
 
-            final String languageCode = extactSingleNodeContents(doc, xPath, "//dcterms:language//rdf:value/text()");
+            final String languageCode = extractSingleNodeContents(doc, xPath, "//dcterms:language//rdf:value/text()");
 
-            final String title = escapeSpecialCharacters(extactSingleNodeContents(doc, xPath, "//dcterms:title/text()"));
+            final String title = extractTitle(doc, xPath);
 
-            final String creator = escapeSpecialCharacters(extactSingleNodeContents(doc, xPath, "//dcterms:creator/pgterms:agent/pgterms:name/text()"));
+            final String creator = extractCreator(doc, xPath);
 
             final String textUrl = extractMultipleNodeUrl(doc, xPath, "//dcterms:hasFormat/pgterms:file/@rdf:about", ".utf-8");
 
@@ -124,6 +125,29 @@ public class ExtractRdfData implements Function<File, DataFromRdf> {
         }
     }
 
+    private String extractSingleOrMultiNodeContents(Document doc, XPath xPath, final String expr) throws XPathExpressionException {
+        final XPathExpression xPathExpression = xPath.compile(expr);
+        final NodeList nodeList = (NodeList) xPathExpression.evaluate(doc,
+                NODESET);
+        final StringBuffer sb = new StringBuffer();
+        for (int i=0; i < nodeList.getLength(); i++) {
+            if (sb.length() > 0) {
+                sb.append(", ");
+            }
+            sb.append(escapeSpecialCharacters(nodeList.item(i).getTextContent()));
+        }
+
+        return sb.toString();
+    }
+
+    private String extractTitle(Document doc, XPath xPath) throws XPathExpressionException {
+        return extractSingleOrMultiNodeContents(doc, xPath, "//dcterms:title/text()");
+    }
+
+    private String extractCreator(Document doc, XPath xPath) throws XPathExpressionException {
+        return extractSingleOrMultiNodeContents(doc, xPath, "//dcterms:creator/pgterms:agent/pgterms:name/text()");
+    }
+
     private String escapeSpecialCharacters(final String input) {
         return input.replace("'", "''") ;
     }
@@ -161,7 +185,7 @@ public class ExtractRdfData implements Function<File, DataFromRdf> {
 
 
 
-    private String extactSingleNodeContents(final Document doc, final XPath xPath, String expr) throws XPathExpressionException {
+    private String extractSingleNodeContents(final Document doc, final XPath xPath, String expr) throws XPathExpressionException {
         final XPathExpression xPathExpression = xPath.compile(expr);
         final NodeList nodeList = (NodeList) xPathExpression.evaluate(doc,
                 NODESET);

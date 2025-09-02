@@ -34,7 +34,8 @@ class Rdf2SqlAppTest {
     static Stream<Arguments> scenarios() {
         return Stream.of(
                 Arguments.of("01"),
-                Arguments.of("02")
+                Arguments.of("02"),
+                Arguments.of("03")
         );
     }
 

@@ -16,7 +16,7 @@
 
     <groupId>com.pravles</groupId>
     <artifactId>rdf2sql</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
